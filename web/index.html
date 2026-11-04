@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#080f1b">
+    <title>Central de emergências</title>
+    <link rel="stylesheet" href="dispatch.css">
+  </head>
+  <body>
+    <main id="app" class="dispatch-root" aria-hidden="true">
+      <section id="dispatch" class="dispatch-window" aria-label="Central de emergências" hidden>
+        <header class="dispatch-header">
+          <div class="brand-mark" aria-hidden="true">MZ</div>
+          <div class="header-title">
+            <p>Atendimento operacional</p>
+            <h1>Central de emergências</h1>
+          </div>
+          <div class="header-state"><span class="state-mark"></span><span id="connection">Aguardando serviço</span></div>
+          <button class="close-button" type="button" data-action="close" aria-label="Fechar central" title="Fechar (Esc)">×</button>
+        </header>
+
+        <div class="dispatch-body">
+          <nav class="service-rail" aria-label="Serviços">
+            <p class="rail-heading">Serviços</p>
+            <button class="service-button" type="button" data-service="police" aria-pressed="false">
+              <span class="service-code">PO</span>
+              <span><strong>Polícia</strong><small>Central de ocorrências</small></span>
+            </button>
+            <button class="service-button" type="button" data-service="medical" aria-pressed="false">
+              <span class="service-code medical-code">EM</span>
+              <span><strong>Atendimento médico</strong><small>Pedidos de assistência</small></span>
+            </button>
+            <div class="rail-note">
+              <span class="rail-note-label">Prioridade</span>
+              <span>1 é crítica</span>
+              <span>5 é informativa</span>
+            </div>
+            <button class="panic-button" type="button" data-action="panic" disabled hidden title="O servidor valida serviço, duty e capability antes de registrar o alerta">
+              Pânico policial
+            </button>
+          </nav>
+
+          <section class="queue-panel" aria-label="Fila de ocorrências">
+            <div class="queue-heading">
+              <div>
+                <p class="queue-kicker" id="service-kicker">Selecione um serviço</p>
+                <h2 id="queue-title">Fila de atendimento</h2>
+              </div>
+              <span id="queue-count" class="queue-count">0 chamados</span>
+            </div>
+
+            <form class="filters" id="filters">
+              <label class="search-field">
+                <span>Buscar relato</span>
+                <input id="search" type="search" maxlength="80" placeholder="Texto ou código" autocomplete="off">
+              </label>
+              <label>
+                <span>Estado</span>
+                <select id="status-filter">
+                  <option value="active">Em andamento</option>
+                  <option value="closed">Encerrados</option>
+                  <option value="all">Todos</option>
+                </select>
+              </label>
+              <label>
+                <span>Categoria</span>
+                <select id="category-filter">
+                  <option value="">Todas</option>
+                </select>
+              </label>
+              <label>
+                <span>Prioridade</span>
+                <select id="priority-filter">
+                  <option value="">Todas</option>
+                  <option value="1">1 · Crítica</option>
+                  <option value="2">2 · Alta</option>
+                  <option value="3">3 · Normal</option>
+                  <option value="4">4 · Baixa</option>
+                  <option value="5">5 · Informativa</option>
+                </select>
+              </label>
+              <button class="refresh-button" type="submit">Atualizar</button>
+            </form>
+
+            <div id="status-message" class="status-message" role="status" aria-live="polite">Escolha Polícia ou Atendimento médico para carregar a fila.</div>
+            <div id="call-list" class="call-list" aria-live="polite"></div>
+            <footer class="queue-footer">
+              <span id="page-label">Sem resultados</span>
+              <div>
+                <button id="previous-page" class="page-button" type="button" disabled aria-label="Página anterior">Anterior</button>
+                <button id="next-page" class="page-button" type="button" disabled aria-label="Próxima página">Próxima</button>
+              </div>
+            </footer>
+          </section>
+        </div>
+        <div id="toast" class="inline-toast" role="alert" hidden></div>
+      </section>
+    </main>
+    <script src="dispatch.js"></script>
+  </body>
+</html>
